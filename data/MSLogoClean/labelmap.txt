@@ -1,0 +1,7 @@
+sofa
+dog
+person
+Microsoft_Logo
+bottle
+car
+tvmonitor
