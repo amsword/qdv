@@ -1,0 +1,34 @@
+{% load static %}
+
+<style>
+    table {
+        border-collapse: collapse;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+<table>
+        <tr>
+            <th>Raw Image</th>
+            <th>Image with target labels</th>
+            <th>Image with all labels</th>
+        </tr>
+        {% for origin_image, bb_label_image, bb_image in images %}
+            <tr>
+                <td><img src="{% static origin_image %}" width=600></td>
+                <td><img src="{% static bb_label_image %}" width=600></td>
+                <td><img src="{% static bb_image %}" width=600></td>
+            </tr>
+        {% endfor %}
+</table>
+
+<center>
+    {% if label %}
+    <a href="{% url 'detection:view_image2' %}?data={{ data }}&split={{ split }}&version={{ version }}&label={{ label }}&start_id={{ previous_id }}">Previous</a>
+    <a href="{% url 'detection:view_image2' %}?data={{ data }}&split={{ split }}&version={{ version }}&label={{ label }}&start_id={{ next_id }}">Next</a>
+    {% else %}
+        <a href="{% url 'detection:view_image2' %}?data={{ data }}&label={{ label }}&start_id={{ previous_id }}">Previous</a>
+        <a href="{% url 'detection:view_image2' %}?data={{ data }}&label={{ label }}&start_id={{ next_id }}">Next</a>
+    {% endif %}
+</center>

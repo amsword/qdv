@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html>
+<body>
+
+<h3>Taxonomy Validator</h3>
+
+<form enctype="multipart/form-data" method="POST">
+  {% csrf_token %}
+  <label>Please input a dataset name, e.g. Tax4K_V1_7: Note: if the dataset name exists, we skip to create a newer one.</label> <br>
+  <input type="text" name="out_data" size="150" value="" required> <br>
+  <label>Data Sources seperated by comma: </label> <br>
+  <input type="text" name="str_datas" value="{{ str_datas }}" size="150"/> <br><br>
+  <input type="file" value="Browse" name="file_input" required=true> <br><br>
+  <input type="submit" value="Submit" />
+</form>
+
+</body>
+</html>

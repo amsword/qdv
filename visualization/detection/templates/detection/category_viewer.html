@@ -1,0 +1,106 @@
+<html>
+    <head>
+        <style>table, th, td {border: 1px solid black;}
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+$('#form').submit(function(e){
+    e.preventDefault();
+    $('#form').hide()
+    <!--$.post('', $(this).serialize(), function(data){ ... });-->
+});
+    </script>
+    </head>
+        <body><h1>Matched Images</h1>
+            <table>
+                                <tr>
+                    <td> 1 </td>
+                    <td>aerial photography</td>
+                                        <td> 
+                                                mturk700_url_as_key: aerial photography 
+                        </br>
+                        <img src=mturk700_url_as_key/5507580807494603276_aerialphotography.jpg style="width:300px"/>
+                        </br>
+                        <div>
+                            <form action="" method="post" id="form"> {% csrf_token %} 
+                            <input type="submit" value="Submit"/>
+                        </form>
+                        </div>
+
+                                            </td>
+                                    </tr>
+                                <tr>
+                    <td> 2 </td>
+                    <td>black and white</td>
+                                        <td> 
+                                                mturk700_url_as_key: black and white 
+                        </br>
+                        <img src=mturk700_url_as_key/-4742021112566986664_blackandwhite.jpg style="width:300px"/>
+                        </br>
+                                            </td>
+                                        <td> 
+                                                VisualGenomeClean: black and white 
+                        </br>
+                        <img src=VisualGenomeClean/1513597235019779783_blackandwhite.jpg style="width:300px"/>
+                        </br>
+                                            </td>
+                                    </tr>
+                                <tr>
+                    <td> 3 </td>
+                    <td>cartoon</td>
+                                        <td> 
+                                                mturk700_url_as_key: cartoon 
+                        </br>
+                        <img src=mturk700_url_as_key/8469802826186483623_cartoon.jpg style="width:300px"/>
+                        </br>
+                                            </td>
+                                        <td> 
+                                                VisualGenomeClean: cartoon 
+                        </br>
+                        <img src=VisualGenomeClean/4814035714618610382_cartoon.jpg style="width:300px"/>
+                        </br>
+                                            </td>
+                                        <td> 
+                                                4000_Full_set: cartoon 
+                        </br>
+                        <img src=4000_Full_set/4184836860563555378_cartoon.jpg style="width:300px"/>
+                        </br>
+                                            </td>
+                                    </tr>
+                                <tr>
+                    <td> 4 </td>
+                    <td>clip art</td>
+                                        <td> 
+                                                4000_Full_set: clip art 
+                        </br>
+                        <img src=4000_Full_set/-1851855325198941950_clipart.jpg style="width:300px"/>
+                        </br>
+                                            </td>
+                                    </tr>
+                                <tr>
+                    <td> 5 </td>
+                    <td>collage</td>
+                                        <td> 
+                                                mturk700_url_as_key: collage 
+                        </br>
+                        <img src=mturk700_url_as_key/3590529075632587693_collage.jpg style="width:300px"/>
+                        </br>
+                                            </td>
+                                        <td> 
+                                                VisualGenomeClean: collage 
+                        </br>
+                        <img src=VisualGenomeClean/-8377893803450769436_collage.jpg style="width:300px"/>
+                        </br>
+                                            </td>
+                                        <td> 
+                                                4000_Full_set: collage 
+                        </br>
+                        <img src=4000_Full_set/-8450167044269670066_collage.jpg style="width:300px"/>
+                        </br>
+                                            </td>
+                                    </tr>
+                            </table>
+        </body>
+</html>
+
+
