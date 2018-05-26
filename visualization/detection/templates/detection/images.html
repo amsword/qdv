@@ -1,4 +1,5 @@
 {% load static %}
+{#{% load js %}#}
 
 <style>
     table {
@@ -8,19 +9,95 @@
     }
 </style>
 
-<table>
+<script type="text/javascript">
+function draw_bb(ctx, rects, labels, width, height) {
+    gold_colors = [[0, 255, 0], [255, 0, 0], [0, 0, 255], [255, 0, 255]];
+    colors = {};
+    for (let i = 0; i < labels.length; i++) {
+        l = labels[i];
+        if (colors[l] == null) {
+            colors[l] = gold_colors.pop();
+        }
+    }
+    for (let i = 0; i < rects.length; i++) {
+        rect = rects[i];
+        label = labels[i];
+        label_color = colors[label];
+        color_format = 'rgb(' + label_color[0] + ','  + label_color[1] + ',' + label_color[2] + ')'
+
+        ctx.beginPath();
+        ctx.rect(rect[0], rect[1], rect[2] - rect[0], rect[3] - rect[1]);
+        ctx.font = "20px Times";
+
+        text_left = [rect[0] + 2, rect[1] - 4];
+        text_bottom = [rect[0] + 2, rect[3] - 4];
+
+        ctx.fillStyle = color_format;
+        if (text_left[0] < width - 12 && text_left[0] >= 0
+            && text_left[1] > 12 && text_left[1] < height) {
+            ctx.fillText(label, text_left[0], text_left[1]);
+        } else if(text_bottom[0] < width - 12 && text_bottom[0] >= 0
+            && text_bottom[1] > 12 && text_bottom[1] < height) {
+            ctx.fillText(label, text_bottom[0], text_bottom[1]);
+        }
+
+        ctx.strokeStyle = color_format;
+        ctx.lineWidth = 3;
+        ctx.closePath();
+        ctx.stroke();
+    }
+}
+window.onload = function() {
+    let images = JSON.parse("{{ images|escapejs }}");
+
+    for(let i = 0; i < images.length; i++) {
+        all_info = images[i]['all_info'];
+
+        let imageTable = document.getElementById('image_table');
+        let row = imageTable.insertRow(-1);
+        let original_img = row.insertCell(-1);
+        let o_img = new Image();
+        o_img.src = "{% static null %}" + images[i]['path'];
+        original_img.appendChild(o_img);
+
+        let label_img = row.insertCell(-1);
+        let l_canvas = document.createElement("CANVAS");
+        let l_ctx = l_canvas.getContext('2d');
+        let l_img = new Image();
+        l_img.src = "{% static null %}" + images[i]['path'];
+        l_img.onload = function() {
+            label_info = images[i]['label_info'];
+            l_canvas.width = l_img.width;
+            l_canvas.height = l_img.height;
+            l_ctx.drawImage(l_img, 0, 0);
+            draw_bb(l_ctx, label_info['rect'], label_info['class'], l_img.width, l_img.height);
+        };
+        label_img.appendChild(l_canvas);
+
+        let all_label_img = row.insertCell(-1);
+        let all_l_canvas = document.createElement("CANVAS");
+        let all_l_ctx = all_l_canvas.getContext('2d');
+
+        let all_l_img = new Image();
+        all_l_img.src = "{%  static null %}" + images[i]['path'];
+        all_l_img.onload = function() {
+            all_label_info = images[i]['all_info'];
+            all_l_canvas.width = all_l_img.width;
+            all_l_canvas.height = all_l_img.height;
+            all_l_ctx.drawImage(l_img, 0, 0);
+            draw_bb(all_l_ctx, all_label_info['rect'], all_label_info['class'], all_l_img.width, all_l_img.height);
+        };
+        all_label_img.append(all_l_canvas);
+    }
+}
+</script>
+
+<table id="image_table">
         <tr>
             <th>Raw Image</th>
             <th>Image with target labels</th>
             <th>Image with all labels</th>
         </tr>
-        {% for origin_image, bb_label_image, bb_image in images %}
-            <tr>
-                <td><img src="{% static origin_image %}" width=600></td>
-                <td><img src="{% static bb_label_image %}" width=600></td>
-                <td><img src="{% static bb_image %}" width=600></td>
-            </tr>
-        {% endfor %}
 </table>
 
 <center>
