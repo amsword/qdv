@@ -309,7 +309,6 @@ def save_image_in_static(im, rel_path):
     #if im.shape[0] > 400:
         #factor = 400. / im.shape[0]
         #im = cv2.resize(im, (int(im.shape[1] * factor), 400))
-    print(rel_path)
     save_image(im, disk_path)
     return html_path
 
