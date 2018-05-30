@@ -16,14 +16,19 @@ function draw_bb(ctx, rects, labels, width, height) {
     for (let i = 0; i < labels.length; i++) {
         l = labels[i];
         if (colors[l] == null) {
-            colors[l] = gold_colors.pop();
+            if (gold_colors.length !== 0) {
+                colors[l] = gold_colors.pop();
+            } else {
+                colors[l] = [Math.floor(Math.random() * 256), Math.floor(Math.random() * 256),
+                    Math.floor(Math.random() * 256)];
+            }
         }
     }
     for (let i = 0; i < rects.length; i++) {
         rect = rects[i];
         label = labels[i];
         label_color = colors[label];
-        color_format = 'rgb(' + label_color[0] + ','  + label_color[1] + ',' + label_color[2] + ')'
+        color_format = 'rgb(' + label_color[0] + ','  + label_color[1] + ',' + label_color[2] + ')';
 
         ctx.beginPath();
         ctx.rect(rect[0], rect[1], rect[2] - rect[0], rect[3] - rect[1]);
