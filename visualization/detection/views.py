@@ -50,6 +50,7 @@ import django.core.files
 import logging
 import uuid
 from qd_common import load_class_ap
+import json
 
 init_logging()
 
@@ -317,25 +318,19 @@ def view_image(request, data, split, version, label, start_id):
     start_id = int(float(start_id))
     images = visualize_box(data, split, version, label, start_id)
     html_image_paths = []
-    max_image_shown = 10
-    has_next = False
-    for i, (fname, origin, origin_label, im) in enumerate(images):
+    max_image_shown = 5
+    for i, (fname, origin, all_info, label_info) in enumerate(images):
         if i >= max_image_shown:
-            has_next = True
-            break 
+            break
         origin_html_path = save_image_in_static(origin, '{}/{}/{}/origin_{}.jpg'.format(data, split,
             version,
             fname))
-        origin_label_html_path = save_image_in_static(origin_label, '{}/{}/{}/origin_label_{}.jpg'.format(data, split,
-            version,
-            fname))
-        html_path = save_image_in_static(im, '{}/{}/{}/bb_{}.jpg'.format(data, split,
-            version,
-            fname))
-        html_image_paths.append((origin_html_path, origin_label_html_path , html_path))
+        html_image_paths.append({"path": origin_html_path,
+                           "all_info": all_info,
+                           "label_info": label_info})
     os.chdir(curr_dir)
 
-    context = {'images': html_image_paths,
+    context = {'images': json.dumps(html_image_paths),
             'data': data,
             'split': split,
             'version': version,

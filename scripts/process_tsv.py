@@ -855,21 +855,21 @@ def visualize_box(data, split, version, label, start_id, color_map={}):
                     label_class = rect['class']
                     rect = rect['rect']
                     all_class.append(label_class)
-                    if not (rect[0] == 0 and rect[1] == 0 
+                    if not (rect[0] == 0 and rect[1] == 0
                             and rect[2] == 0 and rect[3] == 0):
                         all_rect.append(rect)
                     else:
                         all_rect.append((0, 0, im.shape[1] - 1, im.shape[0] - 1))
                 return all_rect, all_class
             all_rect, all_class = get_rect_class(rects)
-            draw_bb(im, all_rect, all_class)
-            all_rect, all_class = get_rect_class([l for l in rects if l['class']
+
+            all_rec_label, all_class_label = get_rect_class([l for l in rects if l['class']
                     == label])
-            im_label = np.copy(origin)
-            draw_bb(im_label, all_rect, all_class)
-            yield new_name, origin, im_label, im
+
+            yield (new_name, origin, {'rect': all_rect, 'class': all_class},
+                   {'rect': all_rec_label, 'class': all_class_label})
         else:
-            yield new_name, origin, im, im
+            yield new_name, origin, rects
 
 
 def visualize_tsv2(data, split, label):
