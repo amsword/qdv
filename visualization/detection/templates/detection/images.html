@@ -16,7 +16,8 @@
 <script>
     let images_dict = JSON.parse("{{ images|escapejs }}");
     let label_list = JSON.parse("{{ label_list|escapejs }}");
-    let checked_list = label_list.slice();
+    let unchecked_list = [];
+
     let static_filepath = {% static null %};
 
     window.onload = function() {
@@ -25,13 +26,12 @@
 
     function onClick_abstraction() {
         if (this.checked) {
-            checked_list.push(this.id);
+            let index = unchecked_list.indexOf(this.id);
+            unchecked_list.splice(index, 1);
         } else {
-            index = checked_list.indexOf(this.id);
-            checked_list.splice(index, 1);
+            unchecked_list.push(this.id);
         }
 
-        let unchecked_list = label_list.filter(function(x) {return checked_list.indexOf(x) < 0});
         update_images(images_dict, static_filepath, unchecked_list);
     }
 </script>
