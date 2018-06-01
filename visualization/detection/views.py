@@ -319,6 +319,7 @@ def view_image(request, data, split, version, label, start_id):
     images = visualize_box(data, split, version, label, start_id)
     html_image_paths = []
     max_image_shown = 5
+    label_list = set()
     for i, (fname, origin, all_info, label_info) in enumerate(images):
         if i >= max_image_shown:
             break
@@ -328,9 +329,11 @@ def view_image(request, data, split, version, label, start_id):
         html_image_paths.append({"path": origin_html_path,
                            "all_info": all_info,
                            "label_info": label_info})
+        label_list.update(all_info['class'])
     os.chdir(curr_dir)
 
     context = {'images': json.dumps(html_image_paths),
+            'label_list': json.dumps(list(label_list)),
             'data': data,
             'split': split,
             'version': version,
