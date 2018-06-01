@@ -869,7 +869,7 @@ def visualize_box(data, split, version, label, start_id, color_map={}):
             yield (new_name, origin, {'rect': all_rect, 'class': all_class},
                    {'rect': all_rec_label, 'class': all_class_label})
         else:
-            yield new_name, origin, rects
+            yield (new_name, origin, rects)
 
 
 def visualize_tsv2(data, split, label):
